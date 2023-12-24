@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1a7b5a445f.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Raleway', Sans-Serif;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            width: 200px;
+            height: 50px;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 0;
+            text-transform: uppercase;
+            margin: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+        .btn::before {
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, #00fffc, transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+            position: absolute;
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .icon:hover {
+            transform: scale(1.2);
+        }
+        body.dark-mode {
+            background-color: #1A202C;
+            color: white;
+        }
+        .form-container {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex flex-col items-center justify-center">
+        <form class="form-container p-8 border rounded shadow-md">
+            <div class="mb-4">
+                <label class="block mb-2" for="email">Email</label>
+                <input type="email" id="email" class="border rounded py-2 px-3 w-full" placeholder="Enter your email">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-2" for="password">Password</label>
+                <input type="password" id="password" class="border rounded py-2 px-3 w-full" placeholder="Enter your password">
+            </div>
+             <button type="submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold rounded focus:outline-none focus:shadow-outline">Login</button>
+        </form>
+        <div class="mt-8 flex space-x-4">
+            <button class="icon text-3xl" onclick="share('Facebook')"><i class="fab fa-facebook"></i></button>
+            <button class="icon text-3xl" onclick="share('Instagram')"><i class="fab fa-instagram"></i></button>
+            <button class="icon text-3xl" onclick="share('GitHub')"><i class="fab fa-github"></i></button>
+            <button class="icon text-3xl" onclick="share('Discord')"><i class="fab fa-discord"></i></button>
+        </div>
+        <div class="mt-8 flex space-x-4">
+            <button onclick="toggleDarkMode('off')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Dark Off</button>
+            <button onclick="toggleDarkMode('on')" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Dark On</button>
+        </div>
+        <div class="mt-4">
+            <button class="text-blue-500 hover:underline" onclick="signIn()">Sign In</button>
+            <span class="mx-2 text-gray-500">|</span>
+            <button class="text-blue-500 hover:underline" onclick="forgotPassword()">Forgot Password</button>
+            <span class="mx-2 text-gray-500">|</span>
+            <button class="text-red-500 hover:underline" onclick="resetPassword()">Reset Password </button>
+        </div>
+    </div>
+    <script>
+        function toggleDarkMode(mode) {
+            if (mode === 'on') {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'on');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'off');
+            }
+        }
+
+        function share(platform) {
+            // Placeholder: Implement actual sharing functionality
+            alert(`Directing to ${platform}...`);
+        }
+
+        function signIn() {
+            // Placeholder: Implement actual sign-in functionality
+            alert('Signing in...');
+        }
+
+        function forgotPassword() {
+            // Placeholder: Implement actual forgot password functionality
+            alert('Ang bobo mo naman!');
+        }
+        
+        function resetPassword() {
+            //Placeholder: Implement actual reset password functionality
+            alert('tanga tanga kasi');
+        }
+
+        // Load dark mode preference from local storage
+        window.onload = function() {
+            const darkMode = localStorage.getItem('darkMode');
+            if (darkMode === 'on') {
+                document.body.classList.add('dark-mode');
+            }
+        };
+    </script>
+</body>
+  </html>
+  
