@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://yourdomain.com'), microphone=(), camera=(),...">
     <title>Login Form</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/1a7b5a445f.js" crossorigin="anonymous"></script>
+    <!-- Instagram API Script -->
+    <script defer src="https://www.instagram.com/embed.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <style>
         body {
             background-color: #000;
-            display: flex;
+            display: absolute;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -58,53 +62,52 @@
         }
         .btn {
             --glow-color: rgb(217, 176, 255);
- --glow-spread-color: rgba(191, 123, 255, 0.781);
- --enhanced-glow-color: rgb(231, 206, 255);
- --btn-color: rgb(100, 61, 136);
- border: .25em solid var(--glow-color);
- padding: 1em 3em;
- color: var(--glow-color);
- font-size: 15px;
- font-weight: bold;
- background-color: var(--btn-color);
- border-radius: 1em;
- outline: none;
- box-shadow: 0 0 1em .25em var(--glow-color),
-        0 0 4em 1em var(--glow-spread-color),
-        inset 0 0 .75em .25em var(--glow-color);
- text-shadow: 0 0 .5em var(--glow-color);
- position: relative;
- transition: all 0.3s;
+            --glow-spread-color: rgba(191, 123, 255, 0.781);
+            --enhanced-glow-color: rgb(231, 206, 255);
+            --btn-color: rgb(100, 61, 136);
+            border: .25em solid var(--glow-color);
+            padding: 1em 3em;
+            color: var(--glow-color);
+            font-size: 15px;
+            font-weight: bold;
+            background-color: var(--btn-color);
+            border-radius: 1em;
+            outline: none;
+            box-shadow: 0 0 1em .25em var(--glow-color),
+                0 0 4em 1em var(--glow-spread-color),
+                inset 0 0 .75em .25em var(--glow-color);
+            text-shadow: 0 0 .5em var(--glow-color);
+            position: relative;
+            transition: all 0.3s;
         }
 
-.btn::after {
-    pointer-events: none;
- content: "";
- position: absolute;
- top: 120%;
- left: 0;
- height: 100%;
- width: 100%;
- background-color: var(--glow-spread-color);
- filter: blur(2em);
- opacity: .7;
- transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
-}
+        .btn::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            top: 120%;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: var(--glow-spread-color);
+            filter: blur(2em);
+            opacity: .7;
+            transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+        }
 
-.btn:hover {
-    color: var(--btn-color);
- background-color: var(--glow-color);
- box-shadow: 0 0 1em .25em var(--glow-color),
-        0 0 4em 2em var(--glow-spread-color),
-        inset 0 0 .75em .25em var(--glow-color);
-}
+        .btn:hover {
+            color: var(--btn-color);
+            background-color: var(--glow-color);
+            box-shadow: 0 0 1em .25em var(--glow-color),
+                0 0 4em 2em var(--glow-spread-color),
+                inset 0 0 .75em .25em var(--glow-color);
+        }
 
-.btn:active {
-    box-shadow: 0 0 0.4em .20em var(--glow-color),
-        0 0 2.5em 2em var(--glow-spread-color),
-        inset 0 0 .5em .25em var(--glow-color);
-}
-
+        .btn:active {
+            box-shadow: 0 0 0.4em .20em var(--glow-color),
+                0 0 2.5em 2em var(--glow-spread-color),
+                inset 0 0 .5em .25em var(--glow-color);
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -118,14 +121,8 @@
                 <label class="block mb-2" for="password">Password</label>
                 <input type="password" id="password" class="border rounded py-2 px-3 w-full" placeholder="Enter your password">
             </div>
-             <button type="submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold rounded focus:outline-none focus:shadow-outline">Login</button>
+            <button type="submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold rounded focus:outline-none focus:shadow-outline">Login</button>
         </form>
-        <div class="mt-8 flex space-x-4">
-            <button class="icon text-3xl" onclick="share('Facebook')"><i class="fab fa-facebook"></i></button>
-            <button class="icon text-3xl" onclick="share('Instagram')"><i class="fab fa-instagram"></i></button>
-            <button class="icon text-3xl" onclick="share('GitHub')"><i class="fab fa-github"></i></button>
-            <button class="icon text-3xl" onclick="share('Discord')"><i class="fab fa-discord"></i></button>
-        </div>
         <div class="mt-8 flex space-x-4">
             <button onclick="toggleDarkMode('off')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Dark Off</button>
             <button onclick="toggleDarkMode('on')" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Dark On</button>
@@ -137,6 +134,22 @@
             <span class="mx-2 text-gray-500">|</span>
             <button class="text-red-500 hover:underline" onclick="resetPassword()">Reset Password </button>
         </div>
+
+        <!-- Sign in using... paragraph and buttons -->
+        <div class="mt-8">
+            <p class="text-gray-500 mb-2">Sign in using:</p>
+            <button class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold rounded focus:outline-none focus:shadow-outline" onclick="handleGitHubLogin()">GitHub</button>
+            <button class="btn bg-indigo-500 hover:bg-indigo-700 text-white font-bold rounded focus:outline-none focus:shadow-outline" onclick="handleFacebookLogin()">Facebook</button>
+            <!-- Add more sign-in buttons as needed -->
+        </div>
+
+        <!-- Share buttons for GitHub, Facebook, Discord, and Instagram -->
+        <div class="mt-8 flex space-x-4">
+            <button class="icon text-3xl" onclick="share('GitHub')"><i class="fab fa-github"></i></button>
+            <button class="icon text-3xl" onclick="share('Facebook')"><i class="fab fa-facebook"></i></button>
+            <button class="icon text-3xl" onclick="share('Discord')"><i class="fab fa-discord"></i></button>
+        </div>
+
     </div>
     <script>
         function toggleDarkMode(mode) {
@@ -147,6 +160,28 @@
                 document.body.classList.remove('dark-mode');
                 localStorage.setItem('darkMode', 'off');
             }
+        }
+
+        function handleInstagramLogin() {
+            // Replace with your actual Instagram client ID and redirect URI
+            const clientId = 'YOUR_INSTAGRAM_CLIENT_ID';
+            const redirectUri = 'YOUR_REDIRECT_URI';
+            
+            // Construct the Instagram authorization URL
+            const instagramAuthUrl = `https://api.instagram.com/oauth/authorize/?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token`;
+            
+            // Open a new window or redirect to the Instagram authorization URL
+            window.open(instagramAuthUrl, '_blank');
+        }
+
+        function handleGitHubLogin() {
+            // Placeholder: Implement GitHub OAuth logic
+            alert('Redirecting to GitHub for sign-in...');
+        }
+
+        function handleFacebookLogin() {
+            // Placeholder: Implement Facebook OAuth logic
+            alert('Redirecting to Facebook for sign-in...');
         }
 
         function share(platform) {
@@ -165,7 +200,7 @@
         }
 
         function resetPassword() {
-            //Placeholder: Implement actual reset password functionality
+            // Placeholder: Implement actual reset password functionality
             alert('tanga tanga kasi');
         }
 
@@ -178,4 +213,4 @@
         };
     </script>
 </body>
-  </html>
+</html>
