@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amazing Profile Card</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1a7b5a445f.js" crossorigin="anonymous"></script>
+    <script defer src="https://www.instagram.com/embed.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -13,6 +18,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            color: white;
         }
 
         .profile-card {
@@ -34,15 +40,199 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer; /* Add this line to indicate it's clickable */
+        }
+
+        .profile-image.zoomed {
+            transform: scale(1.5);
+            transition: transform 0.3s ease;
         }
 
         .profile-info {
             padding: 20px;
         }
 
+        .bio {
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            white-space: pre-line;
+        }
+
+        .bio[contenteditable="true"]:empty:before {
+            content: "BIO";
+            color: #aaa;
+        }
+
+        .bio[contenteditable="true"]:focus {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .upload-btn-wrapper {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            width: 200px;
+            height: 50px;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 0;
+            text-transform: uppercase;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .btn::before {
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, #00fffc, transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+            position: absolute;
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .btn {
+            --glow-color: rgb(217, 176, 255);
+            --glow-spread-color: rgba(191, 123, 255, 0.781);
+            --enhanced-glow-color: rgb(231, 206, 255);
+            --btn-color: rgb(100, 61, 136);
+            border: .25em solid var(--glow-color);
+            padding: 1em 3em;
+            color: var(--glow-color);
+            font-size: 15px;
+            font-weight: bold;
+            background-color: var(--btn-color);
+            border-radius: 1em;
+            outline: none;
+            box-shadow: 0 0 1em .25em var(--glow-color),
+                0 0 4em 1em var(--glow-spread-color),
+                inset 0 0 .75em .25em var(--glow-color);
+            text-shadow: 0 0 .5em var(--glow-color);
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .btn::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            top: 120%;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: var(--glow-spread-color);
+            filter: blur(2em);
+            opacity: .7;
+            transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+        }
+
+        .btn:hover {
+            color: var(--btn-color);
+            background-color: var(--glow-color);
+            box-shadow: 0 0 1em .25em var(--glow-color),
+                0 0 4em 2em var(--glow-spread-color),
+                inset 0 0 .75em .25em var(--glow-color);
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            color: #2ecc71;
+            margin-top: 10px;
+        }
+
+        .timeline-text {
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        .timeline-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .timeline-post {
+            animation: fadeInUp 0.5s ease;
+            position: relative;
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .save-button {
+            padding: 8px 20px;
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            font-weight: bold;
+            filter: drop-shadow(0 0 8px #3498db);
+        }
+
+        .save-button:hover::before {
+            transform: translateX(100%);
+        }
+
+        .save-button:hover {
+            background: linear-gradient(120deg, #2980b9, #9b59b6);
+            filter: drop-shadow(0 0 12px #2980b9);
+        }
+
+        .save-button:active {
+            box-shadow: 0 0 0.4em .20em var(--glow-color),
+                0 0 2.5em 2em var(--glow-spread-color),
+                inset 0 0 .5em .25em var(--glow-color);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         h2 {
             margin-bottom: 10px;
             color: #333;
+            font-weight: bold;
         }
 
         p {
@@ -50,16 +240,137 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="profile-card">
-    <img class="profile-image" src="https://placekitten.com/300/200" alt="Profile Image">
-    <div class="profile-info">
-        <h2>Kurt Michael Melchor</h2>
-        <p>Web Developer</p>
-        <p>chapters are turning |•</p>
+    <div class="profile-card">
+        <img class="profile-image" src="https://placekitten.com/300/200" alt="Profile Image" onclick="zoomProfile()">
+        <div class="profile-info">
+            <h2>Kurt Michael Melchor</h2>
+            <div class="bio" contenteditable="true"></div>
+            <div class="upload-btn-wrapper">
+                <p style="color: #fff; margin-bottom: 10px;">Upload an Image</p>
+                <button class="btn" onclick="document.getElementById('fileInput').click()">Choose File</button>
+                <input type="file" id="fileInput" name="myfile" style="display: none;" onchange="uploadImage()" />
+            </div>
+            <div class="timeline">
+                <div class="timeline-post">
+                    <p class="timeline-text" contenteditable="true"></p>
+                    <form onsubmit="submitForm(event)">
+                        <textarea class="timeline-text" id="postText" placeholder="Write your post..."></textarea>
+                        <button type="submit" class="save-button">Post</button>
+                    </form>
+                    <button class="save-button" onclick="saveChanges()">Save Changes</button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.bio').addEventListener('input', function () {
+        const bioText = this.textContent;
+        this.style.backgroundColor = bioText.trim() !== 'BIO' ? 'rgba(0, 0, 0, 0.8)' : '';
+    });
+});
+
+        document.querySelector('.bio').addEventListener('input', function () {
+            const bioText = this.textContent;
+            this.style.backgroundColor = bioText.trim() !== 'BIO' ? 'rgba(0, 0, 0, 0.8)' : '';
+        });
+
+        function zoomProfile() {
+            const profileImage = document.querySelector('.profile-image');
+            profileImage.classList.toggle('zoomed');
+        }
+
+        function uploadImage() {
+            const fileInput = document.getElementById('fileInput');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const timelinePost = document.querySelector('.timeline-post');
+
+            if (fileInput.files.length === 0) {
+                errorMessage.textContent = 'Error: No file chosen';
+                successMessage.textContent = '';
+                return;
+            }
+
+            setTimeout(() => {
+                const uploadedImage = document.createElement('img');
+                uploadedImage.className = 'timeline-image';
+                uploadedImage.src = URL.createObjectURL(fileInput.files[0]);
+                uploadedImage.alt = 'Timeline Image';
+
+                timelinePost.innerHTML = '';
+                timelinePost.appendChild(uploadedImage);
+
+                errorMessage.textContent = '';
+                successMessage.textContent = 'File successfully uploaded and added to your story!';
+            }, 2000);
+        }
+
+        function saveChanges() {
+            const timelineText = document.querySelector('.timeline-text');
+            const successMessage = document.getElementById('successMessage');
+            localStorage.setItem('timelineText', JSON.stringify(timelineText.textContent));
+            successMessage.textContent = 'Changes saved successfully!';
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+
+            const postText = document.getElementById('postText').value;
+            const timelinePost = document.querySelector('.timeline-post');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+
+            if (!postText.trim()) {
+                errorMessage.textContent = 'Error: Please enter text for your post';
+                successMessage.textContent = '';
+                return;
+            }
+
+            setTimeout(() => {
+                const postedText = document.createElement('p');
+                postedText.className = 'timeline-text';
+                postedText.textContent = postText;
+
+                timelinePost.innerHTML = '';
+                timelinePost.appendChild(postedText);
+
+                errorMessage.textContent = '';
+                successMessage.textContent = 'Post successfully added to your timeline!';
+            }, 2000);
+        }
+
+        window.onload = function () {
+            const savedText = localStorage.getItem('timelineText');
+            const timelineText = document.querySelector('.timeline-text');
+
+            if (savedText) {
+                timelineText.textContent = JSON.parse(savedText);
+            }
+        };
+        
+        const bioElement = document.querySelector('.bio');
+if (bioElement) {
+    bioElement.addEventListener('input', function () {
+        const bioText = this.textContent;
+        this.style.backgroundColor = bioText.trim() !== 'BIO' ? 'rgba(0, 0, 0, 0.8)' : '';
+    });
+}
+
+function saveChanges() {
+    const timelineText = document.querySelector('.timeline-text');
+    const successMessage = document.getElementById('successMessage');
+    localStorage.setItem('timelineText', JSON.stringify(timelineText.textContent));
+    successMessage.textContent = 'Changes saved successfully!';
+}
+
+    </script>
+
 
 </body>
+
 </html>
