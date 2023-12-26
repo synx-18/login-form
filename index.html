@@ -107,6 +107,11 @@
             box-shadow: 0 0 0.4em .20em var(--glow-color),
                 0 0 2.5em 2em var(--glow-spread-color),
                 inset 0 0 .5em .25em var(--glow-color);
+        }                    
+        
+        .error-message {
+            color: red;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -121,7 +126,8 @@
                 <label class="block mb-2" for="password">Password</label>
                 <input type="password" id="password" class="border rounded py-2 px-3 w-full" placeholder="Enter your password">
             </div>
-            <button type="submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold rounded focus:outline-none focus:shadow-outline">Login</button>
+            <button type="button" onclick="validateLogin()" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold rounded focus:outline-none focus:shadow-outline">Login</button>
+            <div id="error-message" class="error-message"></div>
         </form>
         <div class="mt-8 flex space-x-4">
             <button onclick="toggleDarkMode('off')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Dark Off</button>
@@ -148,8 +154,10 @@
             <button class="icon text-3xl" onclick="share('GitHub')"><i class="fab fa-github"></i></button>
             <button class="icon text-3xl" onclick="share('Facebook')"><i class="fab fa-facebook"></i></button>
             <button class="icon text-3xl" onclick="share('Discord')"><i class="fab fa-discord"></i></button>
+            <button class="icon text-3xl" onclick="handleInstagramLogin()"><i class="fab fa-instagram"></i></button>
         </div>
 
+        <!-- ... remaining code ... -->
     </div>
     <script>
         function toggleDarkMode(mode) {
@@ -204,6 +212,22 @@
             alert('tanga tanga kasi');
         }
 
+        // Validate login and show error message if needed
+        function validateLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // Example: Check if email and password meet your criteria
+            if (email.includes('@') && password === 'sphynx.18') {
+                // Successful login, redirect to profile card
+                redirectToProfileCard();
+            } else {
+                // Show error message
+                errorMessage.textContent = 'Invalid email or password. Please try again.';
+            }
+        }
+
         // Load dark mode preference from local storage
         window.onload = function() {
             const darkMode = localStorage.getItem('darkMode');
@@ -211,6 +235,12 @@
                 document.body.classList.add('dark-mode');
             }
         };
+
+        // Redirect to profile card on form submission
+        function redirectToProfileCard() {
+            // Replace 'profile-card.html' with the actual filename
+            window.location.href = 'profile-card.html';
+        }
     </script>
 </body>
 </html>
