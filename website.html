@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a; /* Dark background color */
+            margin: 0;
+            overflow: hidden; /* Hide the horizontal overflow */
+        }
+
+        /* Styling for the three dots */
+        .dots-menu {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 10px;
+            z-index: 2; /* Ensure dots are above other elements */
+        }
+
+        .dot {
+            width: 7px;
+            height: 8px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 1.5px;
+        }
+
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            background-color: #333;
+            padding: 10px;
+            align-items: center;
+            position: fixed;
+            width: 60px;
+            height: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            transition: margin-left 0.3s; /* Added transition for sliding effect */
+            margin-left: 0; /* Initially visible */
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #555;
+            border-radius: 5px;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 100%;
+            background-color: #007BFF;
+            z-index: -1;
+            transition: width 0.3s;
+        }
+
+        .navbar a:hover::before {
+            width: 100%;
+        }
+
+        .navbar.show-options {
+            margin-left: -200px; /* Slide in the navbar */
+        }
+
+        .navbar.show-options .dots-menu .dot:nth-child(1) {
+            transform: translateY(4px);
+        }
+
+        .navbar.show-options .dots-menu .dot:nth-child(3) {
+            transform: translateY(-4px);
+        }
+
+        .container {
+            margin-left: 60px; /* Adjust for the fixed navbar width */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #fff; /* Text color */
+            transition: margin-left 0.3s; /* Added transition for sliding effect */
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .link-container {
+            display: inline-block;
+            padding: 20px 40px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .link-container:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.8);
+        }
+
+        .shine {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.5));
+            opacity: 0;
+            transform: translateX(-100%) rotate(45deg);
+            pointer-events: none;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .link-container.clicked .shine {
+            transform: translateX(100%) rotate(45deg);
+            opacity: 1;
+        }
+
+        .open-file-button {
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.8);
+            z-index: 2; /* Ensure the "Open File" button is above the websites */
+        }
+
+        .website-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 800px;
+            margin: 10px auto; /* Added margin */
+            overflow: hidden;
+            transition: transform 0.5s, height 0.5s; /* Add transition for height change */
+            height: 0; /* Initially hide the websites */
+            opacity: 0;
+        }
+
+        .website-container.show-websites {
+            height: auto; /* Show the websites */
+            opacity: 1;
+        }
+
+        .website-container a {
+            width: calc(20% - 20px);
+            margin: 10px;
+            padding: 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .login-link {
+            color: #fff;
+            text-decoration: none;
+            position: absolute;
+            bottom: 10px;
+        }
+        
+        .hidden {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="navbar" id="navbar">
+        <!-- Three dots for the menu -->
+        <div class="dots-menu" onclick="toggleOptions()">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <a href="profile-card.html">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="login-form.html" class="login-link">Log Out</a>
+        
+    </div>
+
+    <div class="container">
+        <div class="title">Website Projects</div>
+
+        <!-- Updated "Open File" button with enhanced glow effect -->
+        <a href="#" class="link-container open-file-button" id="openFileBtn">Open File<span class="shine"></span></a>
+
+        <!-- Increased to 12 websites with improved alignment -->
+        <div class="website-container" id="websiteContainer">
+            <a href="01-LMS-act01.html">Website 1</a>
+            <a href="02-LMS-act01.html">Website 2</a>
+            <a href="03-LMS-act01.html">Website 3</a>
+            <a href="04-LMS-act01.html">Website 4</a>
+            <a href="05-LMS-act01.html">Website 5</a>
+            <a href="06-LMS-act01.html">Website 6</a>
+            <a href="07-LMS-act01.html">Website 7</a>
+            <a href="08-LMS-act01.html">Website 8</a>
+            <a href="09-LMS-act01.html">Website 9</a>
+            <a href="10-LMS-act01.html">Website 10</a>
+            <a href="11-LMS-act01.html">Website 11</a>
+            <a href="12-LMS-act01.html">Website 12</a>
+        </div>
+        
+        <div class="mt-8 flex space-x-4">
+            <button class="icon text-3xl" onclick="share('GitHub')"><i class="fab fa-github"></i></button>
+            <button class="icon text-3xl" onclick="share('Facebook')"><i class="fab fa-facebook"></i></button>
+            <button class="icon text-3xl" onclick="share('Discord')"><i class="fab fa-discord"></i></button>
+            <button class="icon text-3xl" onclick="handleInstagramLogin()"><i class="fab fa-instagram"></i></button>
+        </div>
+        
+        <footer>
+        &copy; 2024 Your Website. All rights reserved.
+    </footer>        
+
+        <!-- JavaScript and jQuery implementation for the shine effect and sliding animation -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://kit.fontawesome.com/1a7b5a445f.js" crossorigin="anonymous"></script>
+    <script defer src="https://www.instagram.com/embed.js"></script>
+
+
+<script>
+    function handleInstagramLogin() {
+        const clientId = 'YOUR_INSTAGRAM_CLIENT_ID';
+        const redirectUri = 'YOUR_REDIRECT_URI';
+
+        const instagramAuthUrl = `https://api.instagram.com/oauth/authorize/?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token`;
+
+        console.log('Opening Instagram authentication URL:', instagramAuthUrl);
+        window.open(instagramAuthUrl, '_blank');
+    }
+
+    function handleGitHubLogin() {
+        // Placeholder: Implement GitHub OAuth logic
+        console.log('Redirecting to GitHub for sign-in...');
+        alert('Redirecting to GitHub for sign-in...');
+    }
+
+    function handleFacebookLogin() {
+        console.log('Redirecting to Facebook for sign-in...');
+        alert('Redirecting to Facebook for sign-in...');
+    }
+
+    function share(platform) {
+        console.log(`Directing to ${platform}...`);
+        alert(`Directing to ${platform}...`);
+    }
+
+    $(document).ready(function() {
+        console.log('Document is ready.');
+        $('#openFileBtn').on('click', function(event) {
+            event.preventDefault();
+            console.log('Toggle "show-websites" class for #websiteContainer');
+            $('#websiteContainer').toggleClass('show-websites');
+        });
+    });
+
+    function toggleOptions() {
+        console.log('Toggling "show-options" class for #navbar and .container');
+        $('#navbar').toggleClass('show-options');
+        $('.container').toggleClass('show-options');
+
+        // Toggle visibility of specific buttons (Home, About, Contact)
+        $('#navbar a:not(.dots-menu, .login-link, [onclick="goBack()"])').toggleClass('hidden');
+    }
+
+    function goBack() {
+        console.log('Going back: Removing "show-websites" and "show-options" classes');
+        $('#websiteContainer').removeClass('show-websites');
+        $('#navbar').removeClass('show-options');
+        $('.container').removeClass('show-options');
+    }
+</script>
+
+
+    </div>
+</body>
+</html>
