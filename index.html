@@ -404,16 +404,16 @@
         }
      
         function validateLogin() {
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value;        
             const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
+            const errorMessage = document.getElementById('error-meDomain');
 
             if (email.includes('@') && password === 'hex.18') {
                 redirectToProfileCard();
             } else {
                 errorMessage.textContent = 'Invalid email or password. Please try again.';
             }
-        }
+              }         
 
         window.onload = function() {
             const darkMode = localStorage.getItem('darkMode');
@@ -423,7 +423,7 @@
         };
              
         function redirectToProfileCard() {
-            window.location.href = 'profile-card.html';
+            window.location.href = 'website-main.html';
 
                }
     </script>
